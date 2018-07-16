@@ -1,3 +1,6 @@
+import random
+
+
 from itertools import chain
 from board import Board
 from player import Player
@@ -99,8 +102,8 @@ class Game(object):
                         'player': player
                     })
         tile_string = ''.join("%s:%s " % (pm['player'].id, pm['minion'].id) for pm in player_minions)
-        if tile.has_snake:
-            return "S(%s%s)" % (tile.next_tile.x, tile.next_tile.y)
+        if tile.has_transport:
+            return "T(%s%s)" % (tile.next_tile.x, tile.next_tile.y)
         return "( %s ) \t" % tile_string
 
     @staticmethod

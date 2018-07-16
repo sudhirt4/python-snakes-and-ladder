@@ -3,7 +3,7 @@ class Tile(object):
         self._x = x
         self._y = y
         self._next_tile = None
-        self._has_snake = False
+        self._has_transport = False
 
     def __repr__(self):
         return "Tile(%s, %s))" % (self.x, self.y)
@@ -25,9 +25,9 @@ class Tile(object):
         self._next_tile = value
 
     @property
-    def has_snake(self):
-        return self._has_snake
+    def has_transport(self):
+        return self._has_transport
 
-    @has_snake.setter
-    def has_snake(self, value):
-        self._has_snake = value
+    @has_transport.setter
+    def has_transport(self, value):
+        self._has_transport = value

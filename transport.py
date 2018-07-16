@@ -1,3 +1,6 @@
+import random
+
+
 class Transport(object):
     def __init__(self, id, start_position, end_position):
         self._id = id
@@ -15,10 +18,26 @@ class Transport(object):
     def end_position(self):
         return self._end_position
 
+    @staticmethod
+    def generate_position(max_x, max_y):
+        return {'x': random.randint(0, max_x - 1), 'y': random.randint(0, max_y - 1)}
+
 
 class Snake(Transport):
-    pass
+    @staticmethod
+    def generate_positions(max_x, max_y):
+        start_position = Transport.generate_position(max_x, max_y)
+        end_position = Transport.generate_position(max_x, max_y)
+        if start_position['y'] < end_position['y']:
+            return Snake.generate_positions(max_x, max_y)
+        return start_position, end_position
 
 
 class Ladder(Transport):
-    pass
+    @staticmethod
+    def generate_positions(max_x, max_y):
+        start_position = Transport.generate_position(max_x, max_y)
+        end_position = Transport.generate_position(max_x, max_y)
+        if start_position['y'] > end_position['y']:
+            return Ladder.generate_positions(max_x, max_y)
+        return start_position, end_position

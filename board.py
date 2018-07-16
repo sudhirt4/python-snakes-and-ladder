@@ -1,18 +1,19 @@
-import random
-
 from tile import Tile
-from transport import Snake
+from transport import Snake, Ladder
 
 
 class Board(object):
     X_SIZE = 10
     Y_SIZE = 10
-    NO_OF_SNAKES = 10
+    NO_OF_SNAKES = 2
+    NO_OF_LADDERS = 2
 
     def __init__(self):
         self._tiles = Board.generate_tiles()
         self._snakes = Board.generate_snakes()
+        self._ladders = Board.generate_ladders()
         self.add_snakes_to_tiles()
+        self.add_ladders_to_tiles()
 
     def __repr__(self):
         return "Board(); \n\n Snakes:{}, \n\n Tiles:{}".format(self.snakes, self.tiles)
@@ -25,12 +26,22 @@ class Board(object):
     def snakes(self):
         return self._snakes
 
-    def add_snakes_to_tiles(self):
-        for snake in self.snakes:
-            start_tile = self.tiles[(snake.start_position['x'], snake.start_position['y'])]
-            end_tile = self.tiles[(snake.end_position['x'], snake.end_position['y'])]
+    @property
+    def ladders(self):
+        return self._ladders
+
+    def add_transports(self, transports):
+        for transport in transports:
+            start_tile = self.tiles[(transport.start_position['x'], transport.start_position['y'])]
+            end_tile = self.tiles[(transport.end_position['x'], transport.end_position['y'])]
             start_tile.next_tile = end_tile
-            start_tile.has_snake = True
+            start_tile.has_transport = True
+
+    def add_snakes_to_tiles(self):
+        self.add_transports(self.snakes)
+
+    def add_ladders_to_tiles(self):
+        self.add_transports(self.ladders)
 
     @staticmethod
     def generate_tiles():
@@ -56,14 +67,17 @@ class Board(object):
         return tiles
 
     @staticmethod
-    def generate_position():
-        return {'x': random.randint(0, Board.X_SIZE - 1), 'y': random.randint(0, Board.Y_SIZE - 1)}
-
-    @staticmethod
     def generate_snakes():
         snakes = []
         for id in range(0, Board.NO_OF_SNAKES):
-            start_position = Board.generate_position()
-            end_position = Board.generate_position()
+            start_position, end_position = Snake.generate_positions(Board.X_SIZE, Board.Y_SIZE)
             snakes.append(Snake(id, start_position, end_position))
         return tuple(snakes)
+
+    @staticmethod
+    def generate_ladders():
+        ladders = []
+        for id in range(0, Board.NO_OF_LADDERS):
+            start_position, end_position = Ladder.generate_positions(Board.X_SIZE, Board.Y_SIZE)
+            ladders.append(Ladder(id, start_position, end_position))
+        return tuple(ladders)
