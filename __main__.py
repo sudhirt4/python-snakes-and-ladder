@@ -1,6 +1,7 @@
 from game import Game
 
-game = Game()
-while True:
-    game.use_turn()
-    print(game)
+if __name__ == "__main__":
+    game = Game()
+    while True:
+        game.use_turn()
+        print(game)

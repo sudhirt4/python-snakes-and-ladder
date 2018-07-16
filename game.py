@@ -46,8 +46,7 @@ class Game(object):
             self._current_turn_player_id = 0
 
     def roll_dice(self):
-        # roll = random.randint(1, 6)
-        roll = 1
+        roll = random.randint(1, 6)
         current_player = self.current_turn_player
         self.current_roll = roll
         print("Player %d rolled %s" % (current_player.id, roll))
